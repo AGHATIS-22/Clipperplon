@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101014">
+  <title>CLIPPERPLON</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="brand">
+      <div class="brand-icon">P</div>
+      <div>
+        <h1>CLIPPER <span>PLONTO</span></h1>
+        <p>VIDEO EDITOR STUDIO</p>
+      </div>
+    </div>
+    <div class="status"><span></span> AI Video Studio</div>
+  </header>
+
+  <main class="container">
+    <section class="intro">
+      <p class="eyebrow">YOUR VIDEO WORKSPACE</p>
+      <h2>Potong video.<br><span>Buat ceritamu.</span></h2>
+      <p class="description">
+        Pilih bagian terbaik dari videomu dan simpan hasilnya.
+        Sederhana, praktis, dan mudah digunakan.
+      </p>
+    </section>
+
+    <!-- WORKSPACE MANUAL CLIPPER (Hanya muncul untuk pengguna FREE) -->
+    <section id="manualWorkspace" class="workspace">
+      <div class="section-heading">
+        <div>
+          <h3>Manual Clipper</h3>
+          <p>Pilih sumber video dari perangkat atau link</p>
+        </div>
+        <span class="tag">FREE</span>
+      </div>
+
+      <!-- Tab Pilihan Upload vs Link -->
+      <div class="source-tabs" style="display: flex; gap: 8px; margin-bottom: 16px;">
+        <button type="button" id="tabUploadBtn" class="button primary" style="flex: 1; padding: 10px; font-size: 14px;">📁 Upload File</button>
+        <button type="button" id="tabLinkBtn" class="button secondary" style="flex: 1; padding: 10px; font-size: 14px;">🔗 Link Video</button>
+      </div>
+
+      <!-- Konten Tab 1: Upload Lokal -->
+      <div id="contentUpload" class="source-content">
+        <label for="videoInput" class="upload-box" style="display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px dashed #3f3f5a; border-radius: 12px; padding: 24px; cursor: pointer; text-align: center; background: #1a1a24;">
+          <div class="upload-icon" style="font-size: 28px; color: #a855f7; margin-bottom: 8px;">↑</div>
+          <strong style="color: #fff; margin-bottom: 4px;">Pilih video dari perangkat</strong>
+          <span style="color: #8f8fb5; font-size: 12px; margin-bottom: 12px;">MP4, WebM, dan format video yang didukung browser</span>
+          <span class="upload-button" style="background: #a855f7; color: #fff; padding: 8px 16px; border-radius: 6px; font-size: 13px;">＋ Pilih Video</span>
+        </label>
+        <input id="videoInput" type="file" accept="video/*" hidden>
+      </div>
+
+      <!-- Konten Tab 2: Link Video -->
+      <div id="contentLink" class="source-content hidden">
+        <div class="upload-box" style="border: 2px dashed #3f3f5a; border-radius: 12px; padding: 24px; text-align: center; background: #1a1a24; display: flex; flex-direction: column; gap: 12px;">
+          <strong style="color: #fff;">Masukkan Link Langsung Video</strong>
+          <span style="color: #8f8fb5; font-size: 12px;">Gunakan link langsung ke file .mp4, .webm, dll</span>
+          <div style="display: flex; gap: 8px; width: 100%;">
+            <input type="url" id="linkVideoInput" placeholder="https://contoh.com/video.mp4" style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #3f3f5a; background: #101014; color: #fff;" />
+            <button type="button" id="loadVideoLinkBtn" class="button primary" style="padding: 10px 16px; width: auto;">Muat</button>
+          </div>
+          <p id="linkVideoStatus" role="status" style="font-size: 12px; color: #8f8fb5; margin: 0;">Siap memuat dari URL.</p>
+        </div>
+      </div>
+
+      <!-- Area Editor Manual -->
+      <div id="editor" class="editor hidden" style="margin-top: 20px;">
+        <video id="proVideoPreview" controls playsinline style="width: 100%; max-height: 350px; display: block; background: #000;">
+          <source id="proVideoSource" src="" type="video/mp4">
+          Browser Anda tidak mendukung pemutar video ini.
+        </video>
+        <div class="video-info">
+          <span id="videoName">Video pilihanmu</span>
+          <span id="videoDuration">Durasi: 00:00</span>
+        </div>
+        <div class="time-controls">
+          <label>Mulai (detik)<input id="startTime" type="number" min="0" step="0.1" value="0"></label>
+          <label>Selesai (detik)<input id="endTime" type="number" min="0" step="0.1" value="0"></label>
+        </div>
+        <button id="previewClip" class="button secondary">▶ Preview Potongan</button>
+        <button id="exportClip" class="button primary">✂ Potong & Simpan Video</button>
+        <p id="message" class="message" role="status">Pilih waktu mulai dan selesai.</p>
+      </div>
+    </section>
+
+    <!-- KARTU INFO PRO -->
+    <section id="proCardSection" class="pro-card">
+      <div class="pro-icon">✦</div>
+      <div class="pro-content">
+        <div class="pro-title">
+          <h3>Auto Clip AI</h3>
+          <span class="tag pro-tag">PRO</span>
+        </div>
+        <p>Temukan momen menarik dan buat klip pendek secara otomatis.</p>
+        <span class="locked">🔒 Terkunci (Rp 49rb/bulan)</span>
+      </div>
+    </section>
+
+    <!-- MENU UTAMA PRO AI STUDIO -->
+    <section id="proWorkspaceSection" class="workspace hidden" style="border-color: #a855f7; background: linear-gradient(135deg, rgba(168, 85, 247, 0.05), #1a1a24);">
+      <div class="section-heading">
+        <div>
+          <h3 style="color: #a855f7;">✨ Auto Clip AI Studio</h3>
+          <p>Ubah video panjang menjadi klip pendek viral secara otomatis</p>
+        </div>
+        <span class="tag pro-tag">PRO ACTIVE</span>
+      </div>
+
+      <!-- Tab Pilihan Sumber Video Khusus PRO -->
+      <div class="source-tabs" style="display: flex; gap: 8px; margin-bottom: 12px;">
+        <button type="button" id="proTabUploadBtn" class="button primary" style="flex: 1; padding: 10px; font-size: 14px; cursor: pointer;">📁 Upload File Manual</button>
+        <button type="button" id="proTabLinkBtn" class="button secondary" style="flex: 1; padding: 10px; font-size: 14px; cursor: pointer;">🔗 Link (YouTube/FB/TikTok)</button>
+      </div>
+
+      <!-- Opsi 1: Upload File Manual Pro -->
+      <div id="proContentUpload" class="source-content" style="display: block;">
+        <div style="border: 2px dashed #3f3f5a; border-radius: 12px; padding: 30px 20px; text-align: center; background: #14141c; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+          <div style="width: 44px; height: 44px; background: #7c3aed; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);">
+            <span style="color: #fff; font-size: 20px; font-weight: bold;">↑</span>
+          </div>
+          <h4 style="color: #fff; font-size: 15px; font-weight: 600; margin: 0 0 6px 0;">Pilih video dari perangkat</h4>
+          <p style="color: #8f8fb5; font-size: 12px; margin: 0 0 18px 0;">MP4, WebM, dan format video yang didukung browser</p>
+          <button type="button" class="button primary" style="background: #8b5cf6; color: #fff; padding: 10px 22px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; border: none;" onclick="document.getElementById('hiddenProFileInput').click();">+ Pilih Video</button>
+          <input id="hiddenProFileInput" type="file" accept="video/*" style="display: none;">
+        </div>
+      </div>
+
+      <!-- Opsi 2: Link URL Pro -->
+      <div id="proContentLink" class="source-content" style="display: none;">
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <input type="url" id="proLinkVideoInput" placeholder="https://www.youtube.com/watch?v=..." style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #3f3f5a; background: #101014; color: #fff; font-size: 13px;">
+          <button type="button" id="proLoadVideoLinkBtn" class="button primary" style="padding: 10px 16px; width: auto; cursor: pointer; white-space: nowrap;">Muat</button>
+        </div>
+      </div>
+
+      <div id="proEditor" class="editor hidden" style="margin-top: 15px;">
+        <div id="proVideoContainer" style="width: 100%; border-radius: 8px; background: #000; overflow: hidden; min-height: 250px; position: relative;">
+          <video id="proVideoPreview" controls playsinline style="width: 100%; max-height: 350px; display: block; background: #000;"></video>
+        </div>
+        <div id="proYoutubeContainer" style="width: 100%; height: 280px; display: none;"></div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- BUNGKUS DENGAN ID aiStudioPanel (SEMUA DI DALAMNYA) -->
+      <!-- ========================================== -->
+      <div id="aiStudioPanel" style="display: none; margin-top: 15px;">
+        
+        <!-- Opsi Pengaturan AI, Subtitle, Hook, & Anti-Copyright -->
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #8f8fb5;">
+              Durasi Target Klip (1-3 Menit)
+              <select id="aiDurationTarget" style="padding: 10px; border-radius: 6px; border: 1px solid #3f3f5a; background: #101014; color: #fff;">
+                <option value="60">1 Menit</option>
+                <option value="120" selected>2 Menit</option>
+                <option value="180">3 Menit</option>
+              </select>
+            </label>
+
+            <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #8f8fb5;">
+              Subtitle Otomatis (Luar Negeri)
+              <select id="aiLanguageSub" style="padding: 10px; border-radius: 6px; border: 1px solid #3f3f5a; background: #101014; color: #fff;">
+                <option value="en-to-id">Inggris ➔ Terjemahan Indo</option>
+                <option value="en-native">Inggris Asli (Auto-Sync)</option>
+                <option value="auto">Deteksi Otomatis Global</option>
+              </select>
+            </label>
+          </div>
+
+          <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #8f8fb5;">
+            AI Hook & Judul Otomatis (Bisa Diedit)
+            <input type="text" id="aiCustomHook" value="🔥 3 Hal Mengejutkan yang Wajib Kamu Tahu!" style="padding: 10px; border-radius: 6px; border: 1px solid #3f3f5a; background: #101014; color: #fff; font-size: 13px;">
+          </label>
+
+          <div style="background: #14141c; border: 1px solid #3f3f5a; padding: 12px; border-radius: 8px; display: flex; flex-direction: column; gap: 8px;">
+            <span style="font-size: 12px; color: #a855f7; font-weight: bold;">🛡️ Proteksi Anti-Copyright & Anti-Pencurian</span>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #c4c4d4;">
+              <input type="checkbox" id="antiCopyrightZoom" checked style="accent-color: #a855f7;">
+              <label for="antiCopyrightZoom">Auto Micro-Zoom & Shift (Hindari Copyright)</label>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #c4c4d4;">
+              <input type="checkbox" id="watermarkPlon" checked style="accent-color: #a855f7;">
+              <label for="watermarkPlon">Sematkan Watermark "ClipperPlon" (Anti-Pencurian)</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Template & Dubbing -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px;">
+          <div>
+            <label style="color: #b4b4d0; font-size: 12px; display: block; margin-bottom: 6px;">🎨 Template Konten Otomatis</label>
+            <select id="aiContentTemplate" style="width: 100%; background: #14141c; color: #fff; border: 1px solid #3f3f5a; padding: 10px; border-radius: 8px; font-size: 13px;">
+              <option value="podcast">Podcast / Perbincangan</option>
+              <option value="education">Edukasi & Fakta Unik</option>
+              <option value="gaming">Gaming & Highlights</option>
+              <option value="business">Promosi Produk / Affiliate</option>
+              <option value="story">Cerita / Motivasi</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="color: #b4b4d0; font-size: 12px; display: block; margin-bottom: 6px;">🌐 AI Terjemahan & Dubbing</label>
+            <select id="aiDubbingLanguage" style="width: 100%; background: #14141c; color: #fff; border: 1px solid #3f3f5a; padding: 10px; border-radius: 8px; font-size: 13px;">
+              <option value="none">Tanpa Dubbing (Asli)</option>
+              <option value="en">Inggris (English Voice)</option>
+              <option value="es">Spanyol (Spanish Voice)</option>
+              <option value="jp">Jepang (Japanese Voice)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Pengaturan Suara & Kecepatan Voice-over -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;">
+          <div>
+            <label style="color: #b4b4d0; font-size: 12px; display: block; margin-bottom: 6px;">🎙️ Karakter Suara AI</label>
+            <select id="aiVoiceProfile" style="width: 100%; background: #14141c; color: #fff; border: 1px solid #3f3f5a; padding: 10px; border-radius: 8px; font-size: 13px;">
+              <option value="male_pro">Pria - Profesional & Tegas</option>
+              <option value="female_energetic">Wanita - Energik & Ceria</option>
+              <option value="deep_podcaster">Pria - Suara Berat Podcast</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="color: #b4b4d0; font-size: 12px; display: block; margin-bottom: 6px;">⚡ Kecepatan Bicara</label>
+            <select id="aiSpeechSpeed" style="width: 100%; background: #14141c; color: #fff; border: 1px solid #3f3f5a; padding: 10px; border-radius: 8px; font-size: 13px;">
+              <option value="1.0">Normal (1.0x)</option>
+              <option value="1.15">Agak Cepat (1.15x)</option>
+              <option value="1.25">Cepat & Padat (1.25x)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- PANEL AI COPYRIGHT & CONTENT CHECK -->
+          <div style="background: #14141c; border: 1px solid #3f3f5a; padding: 14px; border-radius: 8px; margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 13px; color: #a855f7; font-weight: bold;">🔍 AI Copyright & Content Risk Check</span>
+                <button type="button" id="runCopyrightCheckBtn" class="button secondary" style="padding: 6px 12px; font-size: 11px; width: auto; cursor: pointer;">
+                  Scan Risiko
+                </button>
+            </div>
+            <p id="copyrightCheckStatus" style="font-size: 12px; color: #8f8fb5; margin: 0;">
+              Klik "Scan Risiko" untuk mendeteksi potensi copyright dan kebijakan platform sebelum render.
+            </p>
+          </div>
+
+        <!-- Tombol Proses AI -->
+        <button id="runAiClipBtn" class="button primary" style="width: 100%; margin-top: 15px; padding: 12px; font-weight: 600;">
+          🚀 Proses & Buat Klip Viral Otomatis
+        </button>
+
+      </div>
+      <!-- ========================================== -->
+      <!-- AKHIR PEMBUNGKUS aiStudioPanel             -->
+      <!-- ========================================== -->
+
+      <!-- Hasil Klip AI (Tampil dalam Layar Kecil / Grid) -->
+      <div id="aiResultContainer" class="hidden" style="margin-top: 16px; border-top: 1px solid #3f3f5a; padding-top: 16px;">
+        <h4 style="color: #fff; margin-bottom: 12px; font-size: 14px;">🎯 Hasil Klip AI (Layar Kecil):</h4>
+        <div id="aiClipList" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;"></div>
+      </div>
+    </section>
+
+    <footer>
+      <p>CLIPPERPLON <span>•</span> Create your moment.</p>
+    </footer>
+
+    <!-- MODAL PAYWALL & AKTIVASI -->
+    <div id="paywallModal" class="modal-overlay hidden">
+      <div class="modal-content">
+        <button id="closeModalBtn" class="close-btn">&times;</button>
+        <div class="modal-header">
+          <div class="pro-icon-large">✦</div>
+          <h2>Upgrade ke PRO</h2>
+        </div>
+        <div class="modal-body">
+          <p>Buka potensi penuh ClipperPlon dengan fitur <strong>Auto Clip AI</strong>. Biarkan AI menemukan momen terbaik di videomu secara otomatis.</p>
+        </div>
+        <div class="modal-footer">
+          <button id="upgradeBtn" class="button primary upgrade-btn">Upgrade Sekarang - Rp 49.000 / bln</button>
+          <button id="maybeLaterBtn" class="button secondary">Mungkin Nanti</button>
+          
+          <div class="activation-section" style="margin-top: 16px; border-top: 1px solid #3f3f5a; padding-top: 16px; text-align: left;">
+            <p style="font-size: 12px; color: #8f8fb5; margin-bottom: 8px;">Sudah berlangganan & punya kode?</p>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="activationCodeInput" placeholder="Masukkan Kode..." style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #3f3f5a; background: #101014; color: #fff;">
+              <button id="activateProBtn" class="button primary" style="padding: 10px 16px; width: auto;">Aktifkan</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>  
+  <script src="script.js"></script>
+</body>
+</html>
